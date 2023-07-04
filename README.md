@@ -1,5 +1,5 @@
 # OSRS_Forecasting
-This project covers the process of gathering daily snapshots of the OSRS Hiscores for the purposes of analysis and forecasting.
+This project covers the process of gathering daily snapshots of the OSRS Hiscores (https://secure.runescape.com/m=hiscore_oldschool/overall) for the purposes of analysis and forecasting.
 
 ## Data Scraping
 ### Overview
