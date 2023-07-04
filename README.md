@@ -47,7 +47,149 @@ The SARIMA model performed best for 47 of the bosses. ARIMA was the second most 
 
 ![image](https://github.com/Vinnie-Singleton/OSRS_Forecasting/blob/main/Pics/forecast_graph_example.png)
 
-## Activity Comparison
+## Activity Comparison 
+
+### Tables
+The simplest way to determine the most popular content would be to calculate the average rate of growth per day. When you sort the data by this value you get this table.
+
+| Boss                             |   AVG_Growth_Per_Day |   Completions_Needed_for_HS |
+|:---------------------------------|---------------------:|----------------------------:|
+| Rifts_closed                     |                 1040 |                           2 |
+| Phantom_Muspah                   |                  899 |                          50 |
+| Clue_Scrolls_all                 |                  796 |                           2 |
+| Clue_Scrolls_beginner            |                  672 |                           1 |
+| Clue_Scrolls_easy                |                  373 |                           1 |
+| Clue_Scrolls_medium              |                  342 |                           1 |
+| Wintertodt                       |                  340 |                          50 |
+| Hespori                          |                  315 |                           5 |
+| Tombs_of_Amascut_Normal          |                  302 |                          50 |
+| Clue_Scrolls_hard                |                  291 |                           1 |
+| Skotizo                          |                  226 |                           5 |
+| Tempoross                        |                  222 |                          50 |
+| Obor                             |                  222 |                           5 |
+| Clue_Scrolls_elite               |                  215 |                           1 |
+| Barrows_Chests                   |                  215 |                          50 |
+| Bryophyta                        |                  205 |                           5 |
+| Vorkath                          |                  186 |                          50 |
+| Kraken                           |                  160 |                          50 |
+| LMS_Rank                         |                  157 |                         500 |
+| Clue_Scrolls_master              |                  151 |                           1 |
+| Dagannoth_Rex                    |                  145 |                          50 |
+| The_Corrupted_Gauntlet           |                  138 |                           5 |
+| Tombs_of_Amascut_Expert          |                  137 |                          50 |
+| Zulrah                           |                  129 |                          50 |
+| General_Graardor                 |                  120 |                          50 |
+| King_Black_Dragon                |                  115 |                          50 |
+| Giant_Mole                       |                  110 |                          50 |
+| Mimic                            |                  105 |                           1 |
+| TzTokJad                         |                  102 |                           5 |
+| Cerberus                         |                   95 |                          50 |
+| Thermonuclear_Smoke_Devil        |                   90 |                          50 |
+| Soul_Wars_Zeal                   |                   90 |                         200 |
+| Dagannoth_Supreme                |                   88 |                          50 |
+| Dagannoth_Prime                  |                   88 |                          50 |
+| Grotesque_Guardians              |                   84 |                          50 |
+| Sarachnis                        |                   82 |                          50 |
+| Alchemical_Hydra                 |                   75 |                          50 |
+| Abyssal_Sire                     |                   74 |                          50 |
+| Kril_Tsutsaroth                  |                   73 |                          50 |
+| Kalphite_Queen                   |                   71 |                          50 |
+| Zalcano                          |                   63 |                          50 |
+| Callisto                         |                   62 |                          50 |
+| Commander_Zilyana                |                   61 |                          50 |
+| Nex                              |                   61 |                          50 |
+| KreeArra                         |                   55 |                          50 |
+| Crazy_Archaeologist              |                   55 |                          50 |
+| Chambers_of_Xeric                |                   49 |                          50 |
+| TzKalZuk                         |                   46 |                           1 |
+| Chaos_Elemental                  |                   44 |                          50 |
+| Venenatis                        |                   43 |                          50 |
+| The_Gauntlet                     |                   41 |                          50 |
+| Chaos_Fanatic                    |                   39 |                          50 |
+| PvP_Arena_Rank                   |                   37 |                        2525 |
+| Vetion                           |                   33 |                          50 |
+| Scorpia                          |                   33 |                          50 |
+| Corporeal_Beast                  |                   32 |                          50 |
+| Chambers_of_Xeric_Challenge_Mode |                   27 |                           5 |
+| Deranged_Archaeologist           |                   23 |                          50 |
+| Theatre_of_Blood                 |                   17 |                          50 |
+| Phosanis_Nightmare               |                   11 |                          50 |
+| Theatre_of_Blood_Hard_Mode       |                    7 |                          50 |
+| Nightmare                        |                    6 |                          50 |
+| Bounty_Hunter_Rogue              |                    1 |                           2 |
+| Bounty_Hunter_Hunter             |                   -5 |                           2 |
+
+One reason this table is problematic is that different activities require different levels of completion to show up on the hiscores. For example, to show up on the Vorkath hiscores you need to defeat the boss 50 times compared to the Guardians of the Rift Mini Game (Rifts_closed) where you only need two completions. If we use linear interpolation we can calculate what the score would be for rank 50 for the bosses and activities that need less than 50 to show up on the hiscores. If we sort the data by this new column we get this table.
+
+| Boss                             |   Adjusted_Growth |   Completions_Needed_for_HS |
+|:---------------------------------|------------------:|----------------------------:|
+| Phantom_Muspah                   |               899 |                          50 |
+| Rifts_closed                     |               519 |                           2 |
+| Wintertodt                       |               340 |                          50 |
+| Tombs_of_Amascut_Normal          |               302 |                          50 |
+| Clue_Scrolls_all                 |               294 |                           2 |
+| Tempoross                        |               222 |                          50 |
+| Barrows_Chests                   |               215 |                          50 |
+| Vorkath                          |               186 |                          50 |
+| Kraken                           |               160 |                          50 |
+| LMS_Rank                         |               157 |                         500 |
+| Dagannoth_Rex                    |               145 |                          50 |
+| Tombs_of_Amascut_Expert          |               137 |                          50 |
+| Zulrah                           |               129 |                          50 |
+| Clue_Scrolls_easy                |               127 |                           1 |
+| Clue_Scrolls_hard                |               125 |                           1 |
+| General_Graardor                 |               120 |                          50 |
+| Hespori                          |               116 |                           5 |
+| King_Black_Dragon                |               115 |                          50 |
+| Giant_Mole                       |               110 |                          50 |
+| The_Corrupted_Gauntlet           |               106 |                           5 |
+| Cerberus                         |                95 |                          50 |
+| Soul_Wars_Zeal                   |                90 |                         200 |
+| Thermonuclear_Smoke_Devil        |                90 |                          50 |
+| Dagannoth_Prime                  |                88 |                          50 |
+| Dagannoth_Supreme                |                88 |                          50 |
+| Grotesque_Guardians              |                84 |                          50 |
+| Sarachnis                        |                82 |                          50 |
+| Clue_Scrolls_medium              |                81 |                           1 |
+| Alchemical_Hydra                 |                75 |                          50 |
+| Abyssal_Sire                     |                74 |                          50 |
+| Kril_Tsutsaroth                  |                73 |                          50 |
+| Kalphite_Queen                   |                71 |                          50 |
+| Zalcano                          |                63 |                          50 |
+| Callisto                         |                62 |                          50 |
+| Commander_Zilyana                |                61 |                          50 |
+| Nex                              |                61 |                          50 |
+| Crazy_Archaeologist              |                55 |                          50 |
+| KreeArra                         |                55 |                          50 |
+| Clue_Scrolls_beginner            |                51 |                           1 |
+| Chambers_of_Xeric                |                49 |                          50 |
+| Chaos_Elemental                  |                44 |                          50 |
+| Venenatis                        |                43 |                          50 |
+| Clue_Scrolls_elite               |                42 |                           1 |
+| The_Gauntlet                     |                41 |                          50 |
+| Chaos_Fanatic                    |                39 |                          50 |
+| PvP_Arena_Rank                   |                37 |                        2525 |
+| Vetion                           |                33 |                          50 |
+| Scorpia                          |                33 |                          50 |
+| Corporeal_Beast                  |                32 |                          50 |
+| Clue_Scrolls_master              |                31 |                           1 |
+| Skotizo                          |                26 |                           5 |
+| Deranged_Archaeologist           |                23 |                          50 |
+| Theatre_of_Blood                 |                17 |                          50 |
+| Bryophyta                        |                17 |                           5 |
+| Chambers_of_Xeric_Challenge_Mode |                13 |                           5 |
+| Phosanis_Nightmare               |                11 |                          50 |
+| Theatre_of_Blood_Hard_Mode       |                 7 |                          50 |
+| Nightmare                        |                 6 |                          50 |
+| Obor                             |                 4 |                           5 |
+| TzTokJad                         |                 3 |                           5 |
+| TzKalZuk                         |                 0 |                           1 |
+| Bounty_Hunter_Rogue              |                 0 |                           2 |
+| Mimic                            |                 0 |                           1 |
+| Bounty_Hunter_Hunter             |                -4 |                           2 |
+
+
+### Graphs
 We can compare the popularity of content by grouping bosses into categories and graphing the cumulative change over time and the total change over time. The cumulative change is useful for visualizing the rate of change while the totals provide a look into the overall popularity of a boss.
 
 ### Clue Scrolls
@@ -101,4 +243,9 @@ We can compare the popularity of content by grouping bosses into categories and 
 ### Ironman
 ![image](https://github.com/Vinnie-Singleton/OSRS_Forecasting/blob/main/Pics/cum_ironman_growth.png)
 ![image](https://github.com/Vinnie-Singleton/OSRS_Forecasting/blob/main/Pics/total_ironman_growth.png)
+
+
+
+
+
 
